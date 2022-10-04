@@ -1,0 +1,220 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://assets/font_label.tres" type="DynamicFont" id=1]
+[ext_resource path="res://assets/FlatUI/kenneyUI-yellow.tres" type="Theme" id=2]
+[ext_resource path="res://assets/crate 24x24.png" type="Texture" id=3]
+[ext_resource path="res://assets/pause.png" type="Texture" id=5]
+[ext_resource path="res://assets/steps.png" type="Texture" id=6]
+[ext_resource path="res://assets/pause_enlarged.png" type="Texture" id=7]
+[ext_resource path="res://src/Screens/UserInterface.gd" type="Script" id=8]
+[ext_resource path="res://src/UserInterface/Title.tscn" type="PackedScene" id=9]
+[ext_resource path="res://src/UserInterface/ChangeSceneButton.tscn" type="PackedScene" id=10]
+[ext_resource path="res://assets/FlatUI/UIpack_vector.svg" type="Texture" id=11]
+
+[sub_resource type="StyleBoxTexture" id=4]
+texture = ExtResource( 11 )
+region_rect = Rect2( 1261, 303, 190, 49 )
+modulate_color = Color( 0.635294, 0.635294, 0.635294, 1 )
+
+[sub_resource type="Animation" id=2]
+resource_name = "fade_in"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "fade_out"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[node name="UserInterface" type="Control"]
+pause_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 2 )
+script = ExtResource( 8 )
+
+[node name="CratesLeft" type="TextureRect" parent="."]
+margin_left = 24.0
+margin_top = 16.0
+margin_right = 48.0
+margin_bottom = 40.0
+texture = ExtResource( 3 )
+
+[node name="CountPanel" type="Panel" parent="CratesLeft"]
+margin_left = 26.0
+margin_top = 3.0
+margin_right = 47.0
+margin_bottom = 21.0
+custom_styles/panel = SubResource( 4 )
+
+[node name="Count" type="Label" parent="CratesLeft/CountPanel"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -9.0
+margin_top = -10.0
+margin_right = 9.0
+margin_bottom = 8.0
+custom_fonts/font = ExtResource( 1 )
+text = "0"
+align = 1
+valign = 1
+clip_text = true
+
+[node name="StepsCount" type="TextureRect" parent="."]
+margin_left = 91.0
+margin_top = 16.0
+margin_right = 115.0
+margin_bottom = 40.0
+texture = ExtResource( 6 )
+
+[node name="CountPanel" type="Panel" parent="StepsCount"]
+margin_left = 27.0
+margin_top = 3.0
+margin_right = 72.0
+margin_bottom = 21.0
+custom_styles/panel = SubResource( 4 )
+
+[node name="Count" type="Label" parent="StepsCount/CountPanel"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -18.0
+margin_top = -10.0
+margin_right = 18.0
+margin_bottom = 8.0
+custom_fonts/font = ExtResource( 1 )
+text = "0"
+align = 1
+valign = 1
+clip_text = true
+
+[node name="Counter" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -8.0
+margin_top = 17.0
+margin_right = 120.0
+margin_bottom = 40.0
+text = "00:00:00"
+align = 1
+
+[node name="PauseButton" type="TextureButton" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -48.0
+margin_top = 16.0
+margin_right = -24.0
+margin_bottom = 40.0
+texture_normal = ExtResource( 5 )
+texture_hover = ExtResource( 7 )
+expand = true
+
+[node name="PauseOverlay" type="ColorRect" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.792157 )
+
+[node name="Title" parent="PauseOverlay" instance=ExtResource( 9 )]
+margin_top = -80.0
+margin_bottom = -34.0
+text = "Paused"
+
+[node name="Menu" type="VBoxContainer" parent="PauseOverlay"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -106.0
+margin_top = -24.0
+margin_right = 107.0
+margin_bottom = 107.0
+size_flags_vertical = 3
+custom_constants/separation = -5
+
+[node name="ResumeButton" type="Button" parent="PauseOverlay/Menu"]
+margin_right = 213.0
+margin_bottom = 47.251
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_hover = Color( 0.811765, 0.811765, 0.811765, 1 )
+text = "Resume"
+flat = true
+
+[node name="Level Select" parent="PauseOverlay/Menu" instance=ExtResource( 10 )]
+margin_top = 42.0
+margin_right = 213.324
+margin_bottom = 89.251
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_hover = Color( 0.811765, 0.811765, 0.811765, 1 )
+text = "level select"
+next_scene_path = "res://src/Screens/LevelSelection.tscn"
+
+[node name="Main Menu" parent="PauseOverlay/Menu" instance=ExtResource( 10 )]
+margin_top = 84.0
+margin_right = 213.0
+margin_bottom = 131.251
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_hover = Color( 0.811765, 0.811765, 0.811765, 1 )
+text = "Main Menu"
+next_scene_path = "res://src/Screens/MainScreen.tscn"
+
+[node name="FadeScreen" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="FadeScreen"]
+anims/fade_in = SubResource( 2 )
+anims/fade_out = SubResource( 3 )
+
+[connection signal="button_up" from="PauseButton" to="." method="_on_PauseButton_button_up"]
+[connection signal="button_up" from="PauseOverlay/Menu/ResumeButton" to="." method="_on_ResumeButton_button_up"]
